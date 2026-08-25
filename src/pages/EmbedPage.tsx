@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import { AudioPlayer } from '@/components/watermark/AudioPlayer';
 import { BlueprintSection, SpecTag } from '@/components/watermark/BlueprintSection';
 import { FileDrop } from '@/components/watermark/FileDrop';
 import { WaveformCanvas } from '@/components/watermark/WaveformCanvas';
@@ -25,6 +26,7 @@ import { packPacket, type WatermarkType } from '@/lib/watermark/protocol';
 interface CarrierState {
   file: File;
   buffer: AudioBuffer;
+  url: string;
 }
 
 interface EmbedResult {
@@ -70,12 +72,19 @@ export default function EmbedPage() {
     };
   }, [result]);
 
+  // 释放载体预览的 ObjectURL
+  useEffect(() => {
+    return () => {
+      if (carrier) URL.revokeObjectURL(carrier.url);
+    };
+  }, [carrier]);
+
   const handleCarrierFile = async (file: File) => {
     setDecodingCarrier(true);
     setResult(null);
     try {
       const buffer = await decodeAudioFile(file);
-      setCarrier({ file, buffer });
+      setCarrier({ file, buffer, url: URL.createObjectURL(file) });
     } catch {
       toast.error('无法解码该文件，请上传有效的音频文件');
       setCarrier(null);
@@ -213,6 +222,7 @@ export default function EmbedPage() {
                 ))}
               </div>
               <WaveformCanvas buffer={carrier.buffer} label="FIG 1.2 载波波形 · CH-1" />
+              <AudioPlayer src={carrier.url} label="FIG 1.3 载体试听" />
             </>
           ) : null}
         </div>
@@ -357,6 +367,7 @@ export default function EmbedPage() {
               ))}
             </div>
             <WaveformCanvas buffer={result.buffer} label="FIG 3.1 嵌入后波形 · CH-1" />
+            <AudioPlayer src={result.url} label="FIG 3.2 输出试听 · 可与 FIG 1.3 载体对比" />
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
               <Button asChild className="h-11 bg-accent px-6 text-sm font-bold text-accent-foreground hover:bg-accent/90">
                 <a href={result.url} download={result.name}>

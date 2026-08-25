@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { AudioPlayer } from '@/components/watermark/AudioPlayer';
 import { BlueprintSection, SpecTag } from '@/components/watermark/BlueprintSection';
 import { FileDrop } from '@/components/watermark/FileDrop';
 import { WaveformCanvas } from '@/components/watermark/WaveformCanvas';
@@ -23,7 +24,7 @@ const TYPE_ICON = { text: Type, image: ImageIcon, audio: Music } as const;
 const yieldToUi = () => new Promise<void>((resolve) => setTimeout(resolve, 30));
 
 export default function ExtractPage() {
-  const [target, setTarget] = useState<{ file: File; buffer: AudioBuffer } | null>(null);
+  const [target, setTarget] = useState<{ file: File; buffer: AudioBuffer; url: string } | null>(null);
   const [decoding, setDecoding] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [result, setResult] = useState<ExtractResult | null>(null);
@@ -37,13 +38,20 @@ export default function ExtractPage() {
     };
   }, [result]);
 
+  // 释放待检音频预览的 ObjectURL
+  useEffect(() => {
+    return () => {
+      if (target) URL.revokeObjectURL(target.url);
+    };
+  }, [target]);
+
   const handleFile = async (file: File) => {
     setDecoding(true);
     setResult(null);
     setNotFound(false);
     try {
       const buffer = await decodeAudioFile(file);
-      setTarget({ file, buffer });
+      setTarget({ file, buffer, url: URL.createObjectURL(file) });
     } catch {
       toast.error('无法解码该文件，请上传有效的音频文件');
       setTarget(null);
@@ -154,6 +162,7 @@ export default function ExtractPage() {
                 ))}
               </div>
               <WaveformCanvas buffer={target.buffer} label="FIG 1.2 待检波形 · CH-1" />
+              <AudioPlayer src={target.url} label="FIG 1.3 待检音频试听" />
             </div>
           ) : null}
         </div>
@@ -243,13 +252,7 @@ export default function ExtractPage() {
 
               {result.kind === 'audio' ? (
                 <div className="space-y-2">
-                  <div className="border border-border bg-background p-4">
-                    <SpecTag>FIG 2.3 水印音频 · 8kHz 8-bit · {formatDuration(result.durationSec)}</SpecTag>
-                    {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                    <audio controls src={result.url} className="mt-3 w-full">
-                          您的浏览器不支持音频播放
-                    </audio>
-                  </div>
+                  <AudioPlayer src={result.url} label={`FIG 2.3 水印音频 · 8kHz 8-bit · ${formatDuration(result.durationSec)}`} />
                   <div>
                     <Button asChild variant="secondary" className="h-11">
                       <a href={result.url} download={result.name}>
