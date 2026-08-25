@@ -3,80 +3,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
-All colors MUST be HSL.
-*/
+/* 工程蓝图 · Engineering Blueprint */
+@font-face {
+  font-family: 'Source Han Mono SC';
+  src: url('https://resource-static.cdn.bcebos.com/fonts/SourceHanMonoSC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @layer base {
   :root {
-    --radius: 0.5rem;
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --radius: 0.125rem;
+    /* 浅色图纸面：中性底 + 深蓝小面积焦点 + 安全橙 CTA */
+    --background: 214 45% 97%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --destructive-foreground: 210 40% 98%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 215 85% 34%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 213 40% 93%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 213 40% 93%;
+    --muted-foreground: 214 18% 40%;
+    --accent: 14 100% 57%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 213 38% 82%;
+    --input: 213 38% 76%;
+    --ring: 215 85% 34%;
+    --grid-line: 215 60% 45%;
+    --chart-1: 215 85% 34%;
+    --chart-2: 14 100% 57%;
+    --chart-3: 199 90% 40%;
+    --chart-4: 43 96% 46%;
+    --chart-5: 222 47% 11%;
+    --success: 152 60% 32%;
+    --warning: 43 96% 46%;
+    --info: 215 85% 34%;
+    --education-blue: 215 85% 34%;
+    --education-green: 152 60% 32%;
+    --sidebar-background: 215 60% 16%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 14 100% 57%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 50% 22%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 215 40% 26%;
+    --sidebar-ring: 14 100% 57%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* 经典蓝图纸面 */
+    --background: 218 62% 15%;
+    --foreground: 210 40% 96%;
+    --card: 216 55% 18%;
+    --card-foreground: 210 40% 96%;
+    --popover: 216 55% 18%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 213 94% 62%;
+    --primary-foreground: 218 62% 12%;
+    --secondary: 216 42% 24%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 216 42% 24%;
+    --muted-foreground: 214 25% 68%;
+    --accent: 14 100% 57%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 40% 32%;
+    --input: 215 40% 38%;
+    --ring: 213 94% 62%;
+    --grid-line: 213 80% 66%;
+    --chart-1: 213 94% 62%;
+    --chart-2: 14 100% 57%;
+    --chart-3: 199 90% 48%;
+    --chart-4: 43 96% 50%;
+    --chart-5: 210 40% 96%;
+    --success: 152 55% 42%;
+    --warning: 43 96% 50%;
+    --info: 213 94% 62%;
+    --sidebar-background: 218 62% 12%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 14 100% 57%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --destructive-foreground: 210 40% 98%;
+    --sidebar-accent: 216 42% 24%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 215 40% 26%;
+    --sidebar-ring: 14 100% 57%;
   }
 }
 
@@ -85,7 +102,48 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    font-family: 'Source Han Mono SC', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.18);
+  }
+}
+
+@layer utilities {
+  /* 蓝图网格：24px 细格 + 120px 粗格 */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--grid-line) / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--grid-line) / 0.07) 1px, transparent 1px),
+      linear-gradient(to right, hsl(var(--grid-line) / 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--grid-line) / 0.15) 1px, transparent 1px);
+    background-size:
+      24px 24px,
+      24px 24px,
+      120px 120px,
+      120px 120px;
+  }
+
+  /* 页缘尺寸刻度尺 */
+  .blueprint-ruler-x {
+    background-image: repeating-linear-gradient(
+      to right,
+      hsl(var(--muted-foreground) / 0.5) 0 1px,
+      transparent 1px 12px
+    );
+    background-size: 100% 6px;
+    background-repeat: no-repeat;
+    background-position: bottom;
   }
 }

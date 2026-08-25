@@ -1,5 +1,7 @@
-import SamplePage from './pages/SamplePage';
 import type { ReactNode } from 'react';
+import { Navigate } from 'react-router-dom';
+import EmbedPage from './pages/EmbedPage';
+import ExtractPage from './pages/ExtractPage';
 
 export interface RouteConfig {
   name: string;
@@ -12,9 +14,21 @@ export interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   {
-    name: 'Sample Page',
-    path: '/',
-    element: <SamplePage />,
+    name: '水印嵌入',
+    path: '/embed',
+    element: <EmbedPage />,
     public: true,
-  }
+  },
+  {
+    name: '水印提取',
+    path: '/extract',
+    element: <ExtractPage />,
+    public: true,
+  },
+  {
+    name: '首页',
+    path: '/',
+    element: <Navigate to="/embed" replace />,
+    public: true,
+  },
 ];
