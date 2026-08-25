@@ -4,7 +4,7 @@
 # 你可能想了解的
 ## 这是什么  
 ### 界面预览
-<https://yhoodie.github.io/audio_watermark/index.html>
+<https://www.miaoda.cn/projects/app-dyjft4hsvfgh/page-dyjvvw5pze9t>
 ### 项目简介   
 这是一个音频数字水印嵌入和提取工具，可嵌入文字、图像、音频三种类型的水印，可嵌入水印大小会在上传载体后提示。
 ### 项目结构
