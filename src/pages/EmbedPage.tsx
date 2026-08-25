@@ -59,6 +59,7 @@ export default function EmbedPage() {
   const [imagePayload, setImagePayload] = useState<Uint8Array | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [wmAudioFile, setWmAudioFile] = useState<File | null>(null);
+  const [wmAudioUrl, setWmAudioUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [result, setResult] = useState<EmbedResult | null>(null);
 
@@ -78,6 +79,23 @@ export default function EmbedPage() {
       if (carrier) URL.revokeObjectURL(carrier.url);
     };
   }, [carrier]);
+
+  // 释放水印音频试听的 ObjectURL
+  useEffect(() => {
+    return () => {
+      if (wmAudioUrl) URL.revokeObjectURL(wmAudioUrl);
+    };
+  }, [wmAudioUrl]);
+
+  const handleWmAudioFile = (file: File) => {
+    setWmAudioFile(file);
+    setWmAudioUrl(URL.createObjectURL(file));
+  };
+
+  const clearWmAudio = () => {
+    setWmAudioFile(null);
+    setWmAudioUrl(null);
+  };
 
   const handleCarrierFile = async (file: File) => {
     setDecodingCarrier(true);
@@ -298,16 +316,19 @@ export default function EmbedPage() {
           ) : null}
 
           {wmType === 'audio' ? (
-            <FileDrop
-              spec="FIG 2.2"
-              title="拖入或点击选择水印音频"
-              hint={`将重采样为 ${formatSampleRate(WM_AUDIO_RATE)} 8-bit 单声道；超出载体容量部分自动截断`}
-              accept={{ 'audio/*': [] }}
-              file={wmAudioFile}
-              onFile={setWmAudioFile}
-              onClear={() => setWmAudioFile(null)}
-              disabled={!!busy}
-            />
+            <div className="space-y-4">
+              <FileDrop
+                spec="FIG 2.2"
+                title="拖入或点击选择水印音频"
+                hint={`将重采样为 ${formatSampleRate(WM_AUDIO_RATE)} 8-bit 单声道；超出载体容量部分自动截断`}
+                accept={{ 'audio/*': [] }}
+                file={wmAudioFile}
+                onFile={handleWmAudioFile}
+                onClear={clearWmAudio}
+                disabled={!!busy}
+              />
+              {wmAudioUrl ? <AudioPlayer src={wmAudioUrl} label="FIG 2.3 水印音频试听" /> : null}
+            </div>
           ) : null}
 
           <p className="border-t border-dashed border-border pt-3 text-[11px] text-muted-foreground">
